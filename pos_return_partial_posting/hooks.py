@@ -5,6 +5,23 @@ app_description = "Handles return invoice partial posting in POS"
 app_email = "mahmoud.m.elwazeer@gmail.com"
 app_license = "mit"
 
+from pos_return_partial_posting.pos_return_partial_posting.overrides.pos_invoice_merge_log_overrides import override_pos_merge_on_submit
+from pos_return_partial_posting.pos_return_partial_posting.overrides.sales_invoice_overrides import override_sales_invoice_on_submit
+
+override_pos_merge_on_submit()
+override_sales_invoice_on_submit()
+
+fixtures = [
+    {"dt": "Custom Field", "filters": [["dt", "in", ["POS Invoice","Sales Invoice"]]]},
+]
+
+doc_events = {
+    "Payment Entry": {
+        "on_submit": "pos_return_partial_posting.pos_return_partial_posting.events.payment_entry_events.process_partial_posting_return_accounting",
+        "validate": "pos_return_partial_posting.pos_return_partial_posting.events.payment_entry_events.validate_partial_posting_return"
+    },
+}
+
 # Apps
 # ------------------
 

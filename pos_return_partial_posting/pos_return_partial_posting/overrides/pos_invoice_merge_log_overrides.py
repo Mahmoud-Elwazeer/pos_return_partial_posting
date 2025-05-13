@@ -7,8 +7,6 @@ def override_pos_merge_on_submit():
     Override the on_submit method of POSInvoiceMergeLog class
     """
     def custom_on_submit(self):
-        frappe.msgprint("Custom POS Invoice Merge Log on_submit called")
-
         pos_invoice_docs = [frappe.get_cached_doc("POS Invoice", d.pos_invoice) for d in self.pos_invoices]
         returns_partial_posting = [d for d in pos_invoice_docs if d.get("is_return") == 1 and d.get("custom_enable_partial_posting_returns_only") == 1]
         returns_normal = [d for d in pos_invoice_docs if d.get("is_return") == 1 and not d.get("custom_enable_partial_posting_returns_only")]
@@ -43,7 +41,6 @@ def process_partial_posting_returns(self, return_invoices, sales_invoice_doc=Non
         2. Update stock ledger
         3. Skip accounting entries initially
         """
-        frappe.msgprint("Custom process_partial_posting_returns called")
         # Create credit note but prevent GL entries
         credit_note = self.get_new_sales_invoice()
         credit_note.is_return = 1
@@ -72,8 +69,6 @@ def process_partial_posting_returns(self, return_invoices, sales_invoice_doc=Non
         # Save and submit the credit note
         credit_note.save()
         credit_note.submit()
-
-        # frappe.db.set_value("Sales Invoice", credit_note.name, "status", "Return")
 
         # Store the credit note reference
         self.consolidated_credit_note = credit_note.name

@@ -24,8 +24,9 @@ fixtures = [
 
 doc_events = {
     "POS Invoice": {
-        "before_save": "pos_return_partial_posting.pos_return_partial_posting.events.pos_invoice_events.pos_invoice_before_save",
-        "before_submit": "pos_return_partial_posting.pos_return_partial_posting.events.pos_invoice_events.pos_invoice_validate",
+        # "before_save": "pos_return_partial_posting.pos_return_partial_posting.events.pos_invoice_events.pos_invoice_before_save",
+        # "before_submit": "pos_return_partial_posting.pos_return_partial_posting.events.pos_invoice_events.pos_invoice_validate",
+        "before_submit": "pos_return_partial_posting.pos_return_partial_posting.events.pos_invoice_events.pos_invoice_before_save",
     }
 }
 
